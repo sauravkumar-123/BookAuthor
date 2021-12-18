@@ -26,15 +26,15 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-//@ApiResponses(value = {
-//        @ApiResponse(code = 200, message = "Successfully retrieved all records"),
-//        @ApiResponse(code = 201, message = "Successfully created a record"),
-//        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-//        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-//        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-//        @ApiResponse(code = 500, message = "Application failed to process the request!!Internal Server Error")
-//}
-//)
+@ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved all records"),
+        @ApiResponse(code = 201, message = "Successfully created a record"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+        @ApiResponse(code = 500, message = "Application failed to process the request!!Internal Server Error")
+}
+)
 @Api(value = "BookAuthorController" ,description = "This is BookAuthor Controller for Books CRUD API",produces = "application/json")
 @RestController
 @RequestMapping(value = "/v1/booksauthor/api")
@@ -46,7 +46,7 @@ public class BooksController {
 	private BooksService booksService;
 	
 	@PostMapping("/addbooks")
-//	@ApiOperation(value = "Create a new book record", response = ResponseEntity.class)
+	@ApiOperation(value = "Create a new book record", response = ResponseEntity.class)
 	public ResponseEntity<BookAuthorResponse> addBookdetails(@RequestBody BooksRequest booksRequest){
 	logger.info("Books Request Payload{}->"+booksRequest);
 	if((null!=booksRequest.getBooktitle() && !booksRequest.getBooktitle().isEmpty()) &&
@@ -65,7 +65,7 @@ public class BooksController {
 	}
 	
 	@GetMapping("/getallbooksrecord")
-//	@ApiOperation(value = "Get all book record", response = ResponseEntity.class)
+	@ApiOperation(value = "Get all book record", response = ResponseEntity.class)
 	public ResponseEntity<BookAuthorResponse> getAllBookRecord(){
 	List<Map<String, Object>> booksList=booksService.getAllBookdetails();
 	logger.info("Books Record{}->"+booksList);
@@ -89,7 +89,7 @@ public class BooksController {
 	}
 	
 	@PutMapping("/updatebookrecord/{bookid}")
-//	@ApiOperation(value = "Update a book record", response = ResponseEntity.class)
+	@ApiOperation(value = "Update a book record", response = ResponseEntity.class)
 	public ResponseEntity<BookAuthorResponse> updateSingleBookRecord(@PathVariable(value = "bookid") String bookid,@RequestBody BooksRequest booksRequest){
 	logger.info("Books Request Payload{}->"+booksRequest);
 	if((null!=booksRequest.getBooktitle() && !booksRequest.getBooktitle().isEmpty()) &&
@@ -106,8 +106,8 @@ public class BooksController {
 	return new ResponseEntity<BookAuthorResponse>(new BookAuthorResponse(false,"Failed To Update Book Record", null), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@DeleteMapping("deletebookrecord/{bookid}")
-//	@ApiOperation(value = "Delete a book record", response = ResponseEntity.class)
+	@DeleteMapping("/deletebookrecord/{bookid}")
+	@ApiOperation(value = "Delete a book record", response = ResponseEntity.class)
 	public ResponseEntity<BookAuthorResponse> deleteBookRecordByid(@PathVariable(value = "bookid") String bookid){
 	String status=booksService.deleteBookdetailByid(bookid);
 	if(null!=status && status.equalsIgnoreCase("success")) {

@@ -45,7 +45,7 @@ public class BooksServiceImpl implements BooksService{
 	public List<Map<String, Object>> getAllBookdetails() {
 	List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();	
 	List<Books> bookslist=booksRepositoryImpl.findAllBooksRecord();
-	if(null!=bookslist) {
+	if(null!=bookslist && !bookslist.isEmpty()) {
 		Collections.sort(bookslist, (b1,b2)->b1.getBookisbnNo().compareToIgnoreCase(b2.getBookisbnNo()));
 		bookslist.parallelStream().forEach(i->{
 	    Map<String, Object> map=new HashMap<String,Object>();
@@ -90,7 +90,7 @@ public class BooksServiceImpl implements BooksService{
 		String status="";
 		Books book=booksRepositoryImpl.findBookRecordByBookid(bookid);
 		if(null==book) {
-			throw new NullPointerException("Book Record Not Found");
+			throw new NullPointerException("Book Record Not Found With Bookid: "+bookid);
 		}else {
 		 noOfrecord=booksRepositoryImpl.updateBookRecord(booksRequest, bookid);
 		 if(noOfrecord>0)
@@ -104,7 +104,7 @@ public class BooksServiceImpl implements BooksService{
 		String status="";
 		Books book=booksRepositoryImpl.findBookRecordByBookid(bookid);
 		if(null==book) {
-		   throw new NullPointerException("Book Record Not Found With This BookId");
+		   throw new NullPointerException("Book Record Not Found With This BookId: "+bookid);
 		}else {
 			int noOfrecord=booksRepositoryImpl.deleteBookRecordBybookid(bookid);
 			if(noOfrecord>0) {

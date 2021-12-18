@@ -46,23 +46,23 @@ public class BooksRepositoryImpl implements BooksRepository {
 	
 	@Override
 	public int addBooksRecord(BooksRequest booksRequest) {
-	int row;	
-	 try {
-		Timestamp publicationdate=Utility.StringdateToTimestamp(booksRequest.getBookpublicationdate()); 
-		row=jdbcTemplate.update(Constant.insertbookrecordQuery, new Object[]{"BK"+booksRequest.getBookid(),booksRequest.getBooktitle(),booksRequest.getBookisbnNo(),booksRequest.getTotalpage(),booksRequest.getBookrating(),booksRequest.getBookprice(),publicationdate});
-	 }catch (Exception e) {
-		  e.printStackTrace();
-	      logger.info("Get Exception While Store Books Record{}->"+e.getMessage());
-	      throw new BookAuthorException("Unable To Insert books record");
-	}
-	 return row;
+		int row;	
+		 try {
+			Timestamp publicationdate=Utility.StringdateToTimestamp(booksRequest.getBookpublicationdate()); 
+			row=jdbcTemplate.update(Constant.insertbookrecordQuery, new Object[]{"BK"+booksRequest.getBookid(),booksRequest.getBooktitle(),booksRequest.getBookisbnNo(),booksRequest.getTotalpage(),booksRequest.getBookrating(),booksRequest.getBookprice(),publicationdate});
+		 }catch (Exception e) {
+			  e.printStackTrace();
+		      logger.info("Get Exception While Store Books Record{}->"+e.getMessage());
+		      throw new BookAuthorException("Unable To Insert books record");
+		}
+		 return row;
 	}
 
 	@Override
 	public List<Books> findAllBooksRecord() {
 		List<Books> bookistBooks = null;
 		try {
-	         bookistBooks=jdbcTemplate.query(Constant.findallbookQuery, new BeanPropertyRowMapper<Books>(Books.class));
+	         bookistBooks=jdbcTemplate.query(Constant.findallbookQuery, new BooksRowMapper()/*new BeanPropertyRowMapper<Books>(Books.class)*/);
 		}catch (NullPointerException e) {
 		  e.printStackTrace();
 		  logger.info("Get Exception While fetch Books Record{}->"+e.getMessage());
@@ -79,7 +79,7 @@ public class BooksRepositoryImpl implements BooksRepository {
 	public Books findBookRecordByBookid(String bookid) {
 		Books bookRecord = null;
 		try {
-		   bookRecord=jdbcTemplate.queryForObject(Constant.findSinglebookQuery,new BeanPropertyRowMapper<Books>(Books.class),bookid);
+		   bookRecord=jdbcTemplate.queryForObject(Constant.findSinglebookQuery, new BooksRowMapper()/*new BeanPropertyRowMapper<Books>(Books.class)*/,bookid);
 		}catch (NullPointerException e) {
 		   e.printStackTrace();
 		   logger.info("Get Exception While fetch Books Record{}->"+e.getMessage());
@@ -89,7 +89,8 @@ public class BooksRepositoryImpl implements BooksRepository {
 		catch (Exception e) {
 		  e.printStackTrace();
 		  logger.info("Get Exception While fetch A Book Record{}->"+e.getMessage());
-		  throw new BookAuthorException("Unable To get book record");
+		  //throw new BookAuthorException("Unable To get book record");
+			return bookRecord;
 		}
 		return bookRecord;
 	}

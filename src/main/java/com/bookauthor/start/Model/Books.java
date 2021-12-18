@@ -21,33 +21,38 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-//@Entity
-//@Table(name = "Books_Data")
+@Entity
+@Table(name = "Books_Data")
 public class Books implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue
-	//@Column(name="SL_No")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="SL_No")
 	private long slno;
 	
-	//@Column(name = "Book_Id",length = 10)
+	@Column(name = "Book_Id",length = 10)
 	private String bookid;
 	
-	//@Column(name="Book_Title",length = 30)
+	@Column(name="Book_Title",length = 30)
 	private String booktitle;
 	
-	//@Column(name = "Book_ISBN",length = 20)
+	@Column(name = "Book_ISBN",length = 20)
 	private String bookisbnNo;
 	
-	//@Column(name = "Book_Total_page")
+	@Column(name = "Book_Total_page")
 	private int totalpage;
 	
-	//@Column(name = "Book_Ratings",length = 15)
+	@Column(name = "Book_Ratings",length = 15)
 	private String bookrating;
 	
-	//@Column(name = "Book_Price")
+	@Column(name = "Book_Price")
 	private double bookprice;
 	
-	//@Column(name="Book_Publication_Date")
+	@Column(name="Book_Publication_Date")
 	private Timestamp bookpublicationdate;
 }
